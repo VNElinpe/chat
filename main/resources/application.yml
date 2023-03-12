@@ -1,0 +1,11 @@
+server:
+  port: 60000
+spring:
+  application:
+    name: chat-service
+
+chat:
+  url: https://api.openai.com/v1/chat/completions
+  model: gpt-3.5-turbo
+  token: "Bearer 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"
+  timeout: 60000
