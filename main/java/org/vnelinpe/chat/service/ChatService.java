@@ -11,8 +11,11 @@ import org.vnelinpe.chat.dto.ChatRequestDTO;
 public interface ChatService {
     /**
      * 调用chatgpt
+     *
+     * @param uid        user's id
+     * @param time
      * @param requestDTO 请求模型
      * @return 响应
      */
-    String chat(ChatRequestDTO requestDTO);
+    String chat(String uid, String time, ChatRequestDTO requestDTO);
 }

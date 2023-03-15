@@ -7,5 +7,6 @@ spring:
 chat:
   url: https://api.openai.com/v1/chat/completions
   model: gpt-3.5-turbo
-  token: "Bearer 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"
+  token: "Bearer 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"
   timeout: 60000
+  logPath: /large_data_storage3/chat_app/logs

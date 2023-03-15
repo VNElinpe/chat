@@ -1,10 +1,18 @@
 // 页面聊天记录
+var uid = "anonymous"
 var chatLogs
 // messages
 var messages = [{role: 'system', content: 'You are a helpful assistant.'}]
 
 
 $(document).ready(function(){
+    let urlArgs = window.location.search
+    if (urlArgs.length != 0) {
+        let kvs = urlArgs.substr(1).split("=")
+        if (kvs[0] == 'uid') {
+            uid = kvs[1]
+        }
+    }
     // 首次进入页面的欢迎信息
     chatLogs = [{
         messageType: 'text',
@@ -33,7 +41,7 @@ $(document).ready(function(){
         messages.push({role: 'user', content: content})
         $.ajax({
             type: "POST",
-            url: "/chat",
+            url: "/chat?uid="+uid+"&time="+dateFormat("YYYY-mm-dd HH:MM:SS", new Date()),
             data: JSON.stringify(messages),
             dataType: "json",
             contentType: "application/json",
@@ -60,3 +68,25 @@ $(document).ready(function(){
     };
 
 });
+
+
+// 入参 fmt-格式 date-日期
+function dateFormat(fmt, date) {
+    let ret;
+    const opt = {
+        "Y+": date.getFullYear().toString(),        // 年
+        "m+": (date.getMonth() + 1).toString(),     // 月
+        "d+": date.getDate().toString(),            // 日
+        "H+": date.getHours().toString(),           // 时
+        "M+": date.getMinutes().toString(),         // 分
+        "S+": date.getSeconds().toString()          // 秒
+        // 有其他格式化字符需求可以继续添加，必须转化成字符串
+    };
+    for (let k in opt) {
+        ret = new RegExp("(" + k + ")").exec(fmt);
+        if (ret) {
+            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+        };
+    };
+    return fmt;
+}
